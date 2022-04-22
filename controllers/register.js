@@ -13,10 +13,10 @@ const handleRegister = (db, bcrypt) => (req, res) => {
         hash: hash,
         email: email,
       })
-      .into("smartbrain-schema.login")
+      .into("login")
       .returning("email")
       .then((loginEmail) => {
-        trx("smartbrain-schema.users")
+        trx("users")
           .insert({
             email: loginEmail[0].email,
             name: name,

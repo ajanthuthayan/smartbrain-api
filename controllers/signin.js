@@ -6,14 +6,14 @@ const handleSignIn = (db, bcrypt) => (req, res) => {
   }
 
   db.select("email", "hash")
-    .from("smartbrain-schema.login")
+    .from("login")
     .where("email", "=", email)
     .then((data) => {
       const isValid = bcrypt.compareSync(password, data[0].hash);
       if (isValid) {
         return db
           .select("*")
-          .from("smartbrain-schema.users")
+          .from("users")
           .where("email", "=", email)
           .then((user) => res.json(user[0]))
           .catch((err) => res.status(400).json("unable to get user"));

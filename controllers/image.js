@@ -16,7 +16,7 @@ const handleApiCall = (db) => (req, res) => {
 const handleImage = (db) => (req, res) => {
   const { id, input } = req.body;
 
-  db.from("smartbrain-schema.users")
+  db.from("users")
     .where("id", "=", id)
     .increment("entries", 1)
     .returning("*")
