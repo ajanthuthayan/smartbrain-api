@@ -1,0 +1,28 @@
+const handleSignIn = (db, bcrypt) => (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json("invalid login credentials");
+  }
+
+  db.select("email", "hash")
+    .from("smartbrain-schema.login")
+    .where("email", "=", email)
+    .then((data) => {
+      const isValid = bcrypt.compareSync(password, data[0].hash);
+      if (isValid) {
+        return db
+          .select("*")
+          .from("smartbrain-schema.users")
+          .where("email", "=", email)
+          .then((user) => res.json(user[0]))
+          .catch((err) => res.status(400).json("unable to get user"));
+      } else {
+        return res.status(400).json("unable to sign in");
+      }
+    });
+};
+
+module.exports = {
+  handleSignIn: handleSignIn,
+};
