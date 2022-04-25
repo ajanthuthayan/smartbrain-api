@@ -9,7 +9,7 @@ const image = require("./controllers/image");
 const db = knex({
   client: "pg",
   connection: {
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL,
   },
 });
 
@@ -30,7 +30,9 @@ app.put("/image", image.handleImage(db));
 
 app.post("/imageurl", image.handleApiCall(db));
 
-app.listen(process.env.PORT || 3000, () => console.log(`Server is running on port ${process.env.PORT}.`));
+app.listen(process.env.PORT || 3000, () =>
+  console.log(`Server is running on port ${process.env.PORT}.`)
+);
 
 /*
 / -> res server is working
